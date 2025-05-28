@@ -1205,6 +1205,15 @@ footer {
     gap: 40px; /* Space between the two main sections */
 }
 
+
+/* Styles for the Checkout page title */
+.checkout-page .page-title {
+    font-size: 3em; /* Adjust this value as needed, e.g., 2.5em, 3.5em, 4em */
+    text-align: center; /* Optional: Center the title */
+    /*margin-bottom: 1.5em; /* Optional: Adjust bottom margin below the title */
+    color: var(--primary-color); /* Ensure it uses your primary color */
+}
+
 /* New wrapper to hold the two columns */
 .checkout-content-wrapper {
     display: grid;
@@ -1231,7 +1240,7 @@ footer {
 .cart-summary-section h3 {
     color: var(--primary-color);
     margin-bottom: 20px;
-    font-size: 1.8em; /* Increased font for checkout section heading */
+    font-size: 1em; /* Increased font for checkout section heading */
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
 }
