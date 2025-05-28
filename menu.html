@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Restaurant Name - Menu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/331a3757a3.js" crossorigin="anonymous"></script>
+   
+    </a>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Your Restaurant Name</h1>
+            </div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html" class="active">Menu</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="#" class="nav-icon" id="login-icon">
+                    <i class="fas fa-user"></i>
+                    <span>Login</span>
+                </a>
+                <a href="checkout.html" class="nav-icon cart-icon" id="cart-nav-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main class="menu-page-content">
+        <section class="menu-header">
+            <h2>Our Delicious Menu</h2>
+            <p>Savor our exquisite selection of dishes, prepared with the freshest ingredients and culinary expertise.</p>
+            <div class="delivery-app-links">
+                <a href="https://www.doordash.com/store/your-restaurant-name" target="_blank" class="app-link">Order on DoorDash</a>
+                <a href="https://www.ubereats.com/store/your-restaurant-name" target="_blank" class="app-link">Order on Uber Eats</a>
+            </div>
+        </section>
+
+        <section class="menu-categories">
+            <h3 id="appetizers">Appetizers</h3>
+            <div class="menu-grid">
+                <div class="menu-item" data-id="A001" data-name="Crispy Spring Rolls" data-price="8.99">
+                    <img src="images/appetizer1.jpg" alt="Crispy Spring Rolls">
+                    <h4>Crispy Spring Rolls <span class="price">$8.99</span></h4>
+                    <p>Golden fried rolls filled with fresh vegetables and served with sweet chili sauce. (V)</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+                <div class="menu-item" data-id="A002" data-name="Garlic Prawns" data-price="14.50">
+                    <img src="images/appetizer2.jpg" alt="Garlic Prawns">
+                    <h4>Garlic Prawns <span class="price">$14.50</span></h4>
+                    <p>Pan-seared prawns in a rich garlic butter sauce, served with crusty bread.</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+
+            <h3 id="main-courses">Main Courses</h3>
+            <div class="menu-grid">
+                <div class="menu-item" data-id="M001" data-name="Classic Lasagna" data-price="19.99">
+                    <img src="images/main1.jpg" alt="Classic Lasagna">
+                    <h4>Classic Lasagna <span class="price">$19.99</span></h4>
+                    <p>Layers of rich bolognese, creamy béchamel, and fresh pasta, baked to perfection.</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                    <div class="options">
+                        <label>
+                            <input type="checkbox" name="lasagna-options" value="extra-cheese"> Extra Cheese (+$2.00)
+                        </label>
+                    </div>
+                </div>
+                <div class="menu-item" data-id="M002" data-name="Grilled Ribeye Steak" data-price="32.00">
+                    <img src="images/main2.jpg" alt="Grilled Ribeye Steak">
+                    <h4>Grilled Ribeye Steak <span class="price">$32.00</span></h4>
+                    <p>Premium ribeye, grilled to your liking, served with mashed potatoes and seasonal greens.</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                    <div class="options">
+                        <select name="steak-doneness">
+                            <option value="">Select Doneness</option>
+                            <option value="rare">Rare</option>
+                            <option value="medium-rare">Medium Rare</option>
+                            <option value="medium">Medium</option>
+                            <option value="medium-well">Medium Well</option>
+                            <option value="well-done">Well Done</option>
+                        </select>
+                        <textarea placeholder="Special instructions (e.g., 'no onions')"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <h3 id="desserts">Desserts</h3>
+            <div class="menu-grid">
+                <div class="menu-item" data-id="D001" data-name="Chocolate Lava Cake" data-price="9.50">
+                    <img src="images/dessert1.jpg" alt="Chocolate Lava Cake">
+                    <h4>Chocolate Lava Cake <span class="price">$9.50</span></h4>
+                    <p>Warm chocolate cake with a molten center, served with vanilla ice cream.</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+
+            <h3 id="drinks">Drinks</h3>
+            <div class="menu-grid">
+                <div class="menu-item" data-id="DR001" data-name="Fresh Orange Juice" data-price="4.00">
+                    <img src="images/drink1.jpg" alt="Fresh Orange Juice">
+                    <h4>Fresh Orange Juice <span class="price">$4.00</span></h4>
+                    <p>Freshly squeezed, 100% natural.</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+
+        </section>
+
+        <div id="shopping-cart-overlay" class="modal-overlay hidden">
+            <div class="modal-content cart-content">
+                <span class="close-modal-btn" id="close-cart-btn">&times;</span>
+                <h2>Your Order</h2>
+                <ul id="cart-items">
+                </ul>
+                <div class="cart-total">
+                    Total: <span id="cart-total-price">$0.00</span>
+                </div>
+                <div class="cart-buttons">
+                    <button id="checkout-btn" class="btn btn-primary">Checkout</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>Your Restaurant Name</h3>
+                <p>Serving the finest cuisine since [Year Established]. Experience a blend of tradition and innovation.</p>
+            </div>
+            <div class="footer-section contact">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Restaurant St, City, Country</p>
+                <p><i class="fas fa-phone"></i> +1 (123) 456-7890</p>
+                <p><i class="fas fa-envelope"></i> info@yourrestaurant.com</p>
+            </div>
+            <div class="footer-section hours">
+                <h3>Opening Hours</h3>
+                <p>Mon - Fri: 11:00 AM - 10:00 PM</p>
+                <p>Sat - Sun: 12:00 PM - 11:00 PM</p>
+            </div>
+            <div class="footer-section social">
+                <h3>Follow Us</h3>
+                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 Your Restaurant Name. All rights reserved.
+        </div>
+    </footer>
+
+    <div id="login-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <span class="close-modal-btn">&times;</span>
+            <h2>Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email:</label>
+                    <input type="email" id="login-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password:</label>
+                    <input type="password" id="login-password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <p class="login-message" style="display:none;"></p>
+            </form>
+            <p class="text-center">Don't have an account? <a href="#" id="signup-link">Sign Up</a></p>
+        </div>
+    </div>
+
+    <div id="signup-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <span class="close-modal-btn">&times;</span>
+            <h2>Sign Up</h2>
+            <form id="signup-form">
+                <div class="form-group">
+                    <label for="signup-name">Name:</label>
+                    <input type="text" id="signup-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email:</label>
+                    <input type="email" id="signup-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password:</label>
+                    <input type="password" id="signup-password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-confirm-password">Confirm Password:</label>
+                    <input type="password" id="signup-confirm-password" name="confirm_password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <p class="signup-message" style="display:none;"></p>
+            </form>
+            <p class="text-center">Already have an account? <a href="#" id="login-link">Login</a></p>
+        </div>
+    </div>
+
+    <button class="back-to-top" id="backToTopBtn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <div id="toast-container"></div> 
+
+    <script src="js/script.js"></script>
+    <script src="js/menu.js"></script>
+</body>
+</html>

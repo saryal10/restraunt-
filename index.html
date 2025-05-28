@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Restaurant Name - Home</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/331a3757a3.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Your Restaurant Name</h1>
+            </div>
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="#" class="nav-icon" id="login-icon">
+                    <i class="fas fa-user"></i>
+                    <span>Login</span>
+                </a>
+                <a href="checkout.html" class="nav-icon cart-icon" id="cart-nav-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span> </a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-content">
+                <h2>Taste the Tradition, Savor the Flavor</h2>
+                <p>Authentic dishes crafted with passion and the freshest ingredients.</p>
+                <a href="menu.html" class="btn-order-now">Order Now</a>
+            </div>
+        </section>
+
+        <section class="info-sections">
+            <div class="info-card">
+                <h3>Our Menu</h3>
+                <p>Explore our diverse selection of appetizers, main courses, desserts, and drinks. Something for every palate.</p>
+                <a href="menu.html" class="btn">View Menu</a>
+            </div>
+            <div class="info-card">
+                <h3>About Us</h3>
+                <p>Learn about our story, our culinary philosophy, and the passionate team behind Your Restaurant Name.</p>
+                <a href="about.html" class="btn">Learn More</a>
+            </div>
+            <div class="info-card">
+                <h3>Contact Us</h3>
+                <p>Find our location, operating hours, and how to get in touch for reservations or inquiries.</p>
+                <a href="contact.html" class="btn">Get in Touch</a>
+            </div>
+        </section>
+
+        <section class="specials-section">
+            <h2>Today's Specials</h2>
+            <div class="specials-grid">
+                <div class="special-item" data-id="chef-pasta" data-name="Chef's Signature Pasta" data-price="18.50">
+                    <img src="images/special1.jpg" alt="Special Dish 1">
+                    <h4>Chef's Signature Pasta</h4>
+                    <p>Homemade pasta with a rich marinara sauce and fresh basil.</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+                <div class="special-item" data-id="grilled-salmon" data-name="Grilled Salmon with Asparagus" data-price="25.00">
+                    <img src="images/special2.jpg" alt="Special Dish 2">
+                    <h4>Grilled Salmon with Asparagus</h4>
+                    <p>Perfectly grilled salmon served with seasonal vegetables.</p>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>Your Restaurant Name</h3>
+                <p>Serving the finest cuisine since [Year Established]. Experience a blend of tradition and innovation.</p>
+            </div>
+            <div class="footer-section contact">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Restaurant St, City, Country</p>
+                <p><i class="fas fa-phone"></i> +1 (123) 456-7890</p>
+                <p><i class="fas fa-envelope"></i> info@yourrestaurant.com</p>
+            </div>
+            <div class="footer-section hours">
+                <h3>Opening Hours</h3>
+                <p>Mon - Fri: 11:00 AM - 10:00 PM</p>
+                <p>Sat - Sun: 12:00 PM - 11:00 PM</p>
+            </div>
+            <div class="footer-section social">
+                <h3>Follow Us</h3>
+                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 Your Restaurant Name. All rights reserved.
+        </div>
+    </footer>
+
+    <div id="login-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <span class="close-modal-btn">&times;</span>
+            <h2>Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email:</label>
+                    <input type="email" id="login-email" name="email" required>
+                    <span class="error-message">Please enter a valid email.</span>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password:</label>
+                    <input type="password" id="login-password" name="password" required>
+                    <span class="error-message">Password cannot be empty.</span>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <p class="login-message" style="display:none;"></p>
+            </form>
+            <p class="text-center">Don't have an account? <a href="#" id="signup-link">Sign Up</a></p>
+        </div>
+    </div>
+
+    <div id="signup-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <span class="close-modal-btn">&times;</span>
+            <h2>Sign Up</h2>
+            <form id="signup-form">
+                <div class="form-group">
+                    <label for="signup-name">Name:</label>
+                    <input type="text" id="signup-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email:</label>
+                    <input type="email" id="signup-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password:</label>
+                    <input type="password" id="signup-password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-confirm-password">Confirm Password:</label>
+                    <input type="password" id="signup-confirm-password" name="confirm_password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <p class="signup-message" style="display:none;"></p>
+            </form>
+            <p class="text-center">Already have an account? <a href="#" id="login-link">Login</a></p>
+        </div>
+    </div>
+
+    <button class="back-to-top" id="backToTopBtn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    <div id="toast-container"></div> 
+
+    <script src="js/script.js"></script>
+    </body>
+</html>

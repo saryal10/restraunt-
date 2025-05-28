@@ -1,0 +1,1531 @@
+/* Universal Styles & Reset */
+:root {
+    --primary-color: #A0522D; /* Example: Sienna for a warm, earthy tone */
+    --secondary-color: #F5DEB3; /* Example: Wheat for light background */
+    --accent-color: #4CAF50; /* Example: Green for buttons/highlights */
+    --text-color: #333;
+    --light-text-color: #f8f8f8;
+    --dark-bg: #222;
+    --header-height: 80px;
+    --footer-height: auto;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif; /* Primary font */
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: #fefefe;
+    overflow-x: hidden; /* Prevent horizontal scroll from responsive elements */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif; /* Heading font */
+    color: var(--primary-color);
+    margin-bottom: 0.8em;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--accent-color);
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block; /* Removes extra space below images */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- Header & Navigation --- */
+header {
+    background-color: var(--dark-bg);
+    color: var(--light-text-color);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo h1 {
+    font-size: 2em;
+    color: var(--secondary-color);
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+nav ul {
+    display: flex;
+    flex-grow: 1; /* Allows the nav links to take available space */
+    justify-content: center; /* Center the links if space allows */
+}
+
+nav ul li {
+    margin-left: 30px;
+}
+
+nav ul li a {
+    color: var(--light-text-color);
+    font-weight: 500;
+    padding: 5px 0;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+    width: 100%;
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Push icons to the far right */
+    gap: 20px; /* Space between icons */
+}
+
+.nav-icon {
+    color: var(--light-text-color);
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between icon and text */
+    transition: color 0.3s ease;
+}
+
+.nav-icon:hover {
+    color: var(--accent-color);
+}
+
+.nav-icon .fas {
+    font-size: 1.4em; /* Make icons slightly larger */
+}
+
+/* Cart count badge */
+.cart-icon {
+    position: relative;
+    padding-right: 10px; /* Space for the badge */
+}
+
+.cart-count {
+    background-color: var(--accent-color); /* Badge background */
+    color: white;
+    font-size: 0.75em;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 3px 7px;
+    position: absolute;
+    top: -8px; /* Position above and to the right of the icon */
+    right: -5px;
+    min-width: 20px; /* Ensure circular shape for single digits */
+    text-align: center;
+    line-height: 1; /* Center text vertically */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    display: none; /* Hidden by default when cart is empty or 0 items */
+}
+
+/* Show cart count only when > 0 items (active class added by JS) */
+.cart-count.active {
+    display: block;
+}
+
+.nav-toggle {
+    display: none; /* Hidden on desktop */
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.nav-toggle span {
+    height: 3px;
+    width: 25px;
+    background-color: var(--secondary-color);
+    margin-bottom: 5px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* --- Buttons --- */
+.btn, .btn-primary, .btn-order-now {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover, .btn-primary:hover, .btn-order-now:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.btn-order-now {
+    background-color: var(--accent-color); /* Highlight color */
+    padding: 15px 35px;
+    font-size: 1.2em;
+}
+
+/* --- Hero Section (Homepage) --- */
+.hero-section {
+    position: relative;
+    height: 80vh; /* Adjust height as needed */
+    background: url('../images/hero-bg.jpg') no-repeat center center/cover; /* Replace with your image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--light-text-color);
+    overflow: hidden; /* Ensure content doesn't overflow background */
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay for readability */
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.hero-content h2 {
+    font-size: 3.5em;
+    margin-bottom: 15px;
+    color: var(--secondary-color);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+.hero-content p {
+    font-size: 1.3em;
+    margin-bottom: 30px;
+    color: var(--secondary-color);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+/* --- Info Sections (Homepage) --- */
+.info-sections {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 60px 20px;
+    background-color: var(--secondary-color);
+    gap: 30px; /* Space between cards */
+}
+
+.info-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    padding: 30px;
+    text-align: center;
+    flex: 1; /* Allows cards to grow and shrink */
+    min-width: 280px; /* Minimum width before wrapping */
+    max-width: 350px;
+    transition: transform 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-10px);
+}
+
+.info-card h3 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.info-card p {
+    margin-bottom: 25px;
+    color: #555;
+}
+
+/* --- Specials Section (Homepage) --- */
+.specials-section {
+    padding: 80px 20px;
+    text-align: center;
+    background-color: #fdfdfd;
+}
+
+.specials-section h2 {
+    font-size: 2.8em;
+    margin-bottom: 50px;
+    color: var(--primary-color);
+}
+
+.specials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.special-item {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+.special-item:hover {
+    transform: translateY(-5px);
+}
+
+.special-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+.special-item h4 {
+    font-size: 1.6em;
+    margin: 20px 20px 10px;
+    color: var(--primary-color);
+}
+
+.special-item p {
+    padding: 0 20px 20px;
+    color: #666;
+}
+
+/* --- Menu Page Specific Styles --- */
+.menu-page-content {
+    padding-top: 80px; /* Account for sticky header */
+}
+
+.menu-header {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: var(--secondary-color);
+    margin-bottom: 50px;
+}
+
+.menu-header h2 {
+    font-size: 3em;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.menu-header p {
+    font-size: 1.1em;
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto 30px;
+}
+
+.delivery-app-links {
+    margin-top: 30px;
+}
+
+.delivery-app-links .app-link {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #eee;
+    border-radius: 5px;
+    color: var(--text-color);
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.delivery-app-links .app-link:hover {
+    background-color: #ddd;
+    color: var(--primary-color);
+}
+
+
+.menu-categories {
+    max-width: 1200px;
+    margin: 0 auto 80px;
+    padding: 0 20px;
+}
+
+.menu-categories h3 {
+    font-size: 2.5em;
+    color: var(--dark-bg);
+    margin-top: 60px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.menu-item {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* For options positioning */
+}
+
+.menu-item img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+.menu-item h4 {
+    font-size: 1.4em;
+    margin: 15px 15px 5px;
+    color: var(--primary-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.menu-item .price {
+    font-weight: bold;
+    color: var(--accent-color);
+    font-size: 1.1em;
+}
+
+.menu-item p {
+    padding: 0 15px 15px;
+    color: #666;
+    flex-grow: 1; /* Ensures description takes available space */
+}
+
+.menu-item .options {
+    padding: 0 15px 15px;
+}
+
+.menu-item .options label, .menu-item .options select, .menu-item .options textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.menu-item .options textarea {
+    resize: vertical;
+}
+
+.add-to-cart-btn {
+    width: calc(100% - 30px); /* 100% minus left/right padding */
+    margin: 0 15px 15px 15px;
+    padding: 10px 15px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #3e8e41; /* Manual darker green */
+}
+
+/* Shopping Cart Overlay */
+/* Re-use .modal-overlay and .modal-content for consistency */
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+    display: flex;
+    justify-content: flex-end; /* Pushes cart content to the right */
+    z-index: 2000;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.cart-overlay.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.cart-content {
+    background-color: #fff;
+    width: 400px;
+    max-width: 90%;
+    height: 100%;
+    position: relative;
+    right: -400px; /* Initially off-screen */
+    transition: right 0.3s ease;
+    padding: 20px;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-overlay.show .cart-content {
+    right: 0; /* Slide in */
+}
+
+.cart-content h2 { /* Targeting the h2 within cart-content for consistency */
+    font-size: 2.2em;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+#cart-items {
+    margin-bottom: 20px;
+    flex-grow: 1; /* Allows cart items to take available space */
+    overflow-y: auto; /* Scroll for many items */
+}
+
+#cart-items li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed #eee;
+}
+
+#cart-items li:last-child {
+    border-bottom: none;
+}
+
+#cart-items .empty-cart-message {
+    text-align: center;
+    padding: 20px 0;
+    color: #888;
+    font-style: italic;
+}
+
+#cart-items .item-details {
+    flex-grow: 1;
+    margin-right: 15px;
+}
+
+#cart-items .item-details p {
+    margin: 0;
+    color: var(--text-color);
+    font-weight: bold;
+    padding: 0; /* Override default p padding */
+}
+#cart-items .item-details small {
+    display: block; /* Each option/instruction on new line */
+    font-size: 0.85em;
+    color: #666;
+    margin-top: 3px;
+}
+
+
+#cart-items .item-quantity {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    flex-shrink: 0; /* Prevent it from shrinking */
+}
+
+#cart-items .item-quantity button {
+    background-color: #eee;
+    border: 1px solid #ddd;
+    padding: 5px 8px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease;
+}
+#cart-items .item-quantity button:hover {
+    background-color: #ddd;
+}
+
+#cart-items .item-quantity span {
+    margin: 0 8px;
+    font-weight: bold;
+}
+
+#cart-items .item-price {
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-left: 10px;
+    flex-shrink: 0; /* Prevent it from shrinking */
+    min-width: 60px; /* Ensure price space */
+    text-align: right;
+}
+
+#cart-items .remove-item-btn {
+    background-color: #f44336; /* Red */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8em;
+    margin-left: 15px;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0; /* Prevent it from shrinking */
+}
+#cart-items .remove-item-btn:hover {
+    background-color: #d32f2f;
+}
+
+
+.cart-total {
+    text-align: right;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--dark-bg);
+    padding-top: 15px;
+    border-top: 2px solid var(--primary-color);
+    margin-top: 20px;
+}
+
+.cart-buttons {
+    display: flex;
+    justify-content: flex-end; /* Push buttons to the right */
+    margin-top: 30px;
+    gap: 15px;
+}
+
+.cart-buttons .btn {
+    flex: 1; /* Allows buttons to take available space within their container */
+    max-width: 200px; /* Limit button width */
+    text-align: center;
+}
+
+/* --- About Us Page Specific Styles --- */
+.about-page-content {
+    padding-top: 80px;
+}
+
+.about-hero {
+    position: relative;
+    height: 50vh;
+    overflow: hidden;
+    margin-bottom: 60px;
+}
+
+.about-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.about-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--light-text-color);
+    padding: 20px;
+}
+
+.about-hero-overlay h2 {
+    font-size: 3.5em;
+    margin-bottom: 10px;
+    color: var(--secondary-color);
+}
+
+.about-hero-overlay p {
+    font-size: 1.3em;
+    color: var(--secondary-color);
+}
+
+.about-intro, .our-philosophy, .our-team {
+    max-width: 1000px;
+    margin: 0 auto 80px;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.about-intro h3, .our-philosophy h3, .our-team h3 {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+    color: var(--dark-bg);
+}
+
+.about-intro p {
+    font-size: 1.1em;
+    color: #555;
+    line-height: 1.8;
+}
+
+.philosophy-grid, .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.philosophy-item, .team-member {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.philosophy-item:hover, .team-member:hover {
+    transform: translateY(-5px);
+}
+
+.philosophy-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin: 0 auto 20px;
+}
+
+.philosophy-item h4, .team-member h4 {
+    font-size: 1.6em;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.philosophy-item p, .team-member p {
+    color: #666;
+    font-size: 0.95em;
+}
+
+.team-member img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 20px;
+    border: 3px solid var(--accent-color);
+}
+
+/* --- Contact Us Page Specific Styles --- */
+.contact-page-content {
+    padding-top: 80px;
+}
+
+.contact-header {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: var(--secondary-color);
+    margin-bottom: 50px;
+}
+
+.contact-header h2 {
+    font-size: 3em;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.contact-header p {
+    font-size: 1.1em;
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.contact-info-map {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+    gap: 40px;
+}
+
+.contact-details {
+    flex: 1;
+    min-width: 300px;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.contact-details h3 {
+    font-size: 2em;
+    color: var(--dark-bg);
+    margin-bottom: 25px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+}
+
+.contact-details p {
+    margin-bottom: 15px;
+    color: #555;
+    font-size: 1.1em;
+}
+
+.contact-details p i {
+    color: var(--accent-color);
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+.contact-details a {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.map-container {
+    flex: 2; /* Map takes more space */
+    min-width: 350px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+}
+
+.contact-form-section {
+    max-width: 800px;
+    margin: 0 auto 80px;
+    padding: 40px 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.contact-form-section h3 {
+    font-size: 2.2em;
+    color: var(--dark-bg);
+    margin-bottom: 30px;
+}
+
+.contact-form .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    /* Corrected: Use specific RGB values for rgba instead of variable directly */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3); /* #4CAF50 is RGB(76, 175, 80) */
+}
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.contact-form button {
+    margin-top: 20px;
+    width: auto;
+    padding: 15px 40px;
+    font-size: 1.1em;
+}
+
+.form-submission-message {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #d4edda; /* Light green */
+    color: #155724; /* Dark green */
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+/* --- Footer --- */
+footer {
+    background-color: var(--dark-bg);
+    color: var(--light-text-color);
+    padding: 50px 20px 20px;
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    gap: 30px;
+    text-align: left;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+    margin-bottom: 20px;
+}
+
+.footer-section h3 {
+    font-size: 1.5em;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px;
+}
+
+.footer-section p {
+    font-size: 0.95em;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.7);
+}
+
+.footer-section p i {
+    margin-right: 10px;
+    color: var(--accent-color);
+}
+
+.footer-section a {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.footer-section a:hover {
+    color: var(--secondary-color);
+}
+
+.footer-section.social a {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 1.8em;
+    color: var(--secondary-color);
+    transition: transform 0.3s ease;
+}
+
+.footer-section.social a:hover {
+    transform: translateY(-5px);
+    color: var(--accent-color);
+}
+
+.footer-bottom {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.9em;
+    color: rgba(255,255,255,0.5);
+}
+
+
+/* --- Modal Overlay Styles (Login/Sign Up) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000; /* Ensure it's on top of everything */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    position: relative;
+    max-height: 90vh; /* Limit height for smaller screens */
+    overflow-y: auto; /* Allow scrolling if content is too long */
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2em;
+    cursor: pointer;
+    color: #888;
+    transition: color 0.2s ease;
+}
+
+.close-modal-btn:hover {
+    color: #333;
+}
+
+.modal-content h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    font-size: 2.2em;
+}
+
+.modal-content .form-group {
+    margin-bottom: 15px;
+}
+
+.modal-content label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--dark-bg);
+}
+
+.modal-content input[type="email"],
+.modal-content input[type="password"],
+.modal-content input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.modal-content button.btn-primary {
+    width: 100%;
+    padding: 12px 20px;
+    margin-top: 20px;
+    font-size: 1.1em;
+}
+
+.modal-content .text-center {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.modal-content .login-message,
+.modal-content .signup-message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    text-align: center;
+}
+/* For success messages */
+.modal-content .message-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+/* For error messages */
+.modal-content .message-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+
+/* --- Form Validation Styles --- */
+/* For input fields that are invalid */
+.form-group.invalid input,
+.form-group.invalid textarea {
+    border-color: #f44336; /* Red border */
+    box-shadow: 0 0 5px rgba(244, 67, 54, 0.3);
+}
+
+/* For the error message text */
+.form-group .error-message {
+    color: #f44336; /* Red text */
+    font-size: 0.85em;
+    margin-top: 5px;
+    display: none; /* Hidden by default */
+}
+
+/* Show error message when parent has 'invalid' class */
+.form-group.invalid .error-message {
+    display: block;
+}
+/* --- Toast Notification Styles --- */
+/* Toast Notification Styles */
+.toast-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--accent-color); /* Green background */
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    z-index: 10001; /* Above modals */
+    font-size: 0.95em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toast-notification.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Optional: Icon for the toast */
+.toast-notification i {
+    font-size: 1.2em;
+}
+
+
+/* --- Back to Top Button Styles --- */
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: var(--primary-color);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.2s ease;
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-3px);
+}
+
+/* Checkout Page Layout */
+.checkout-page {
+    padding: 40px 20px;
+    display: grid;
+    grid-template-columns: 1fr; /* Default to single column on small screens */
+    gap: 40px; /* Space between the two main sections */
+}
+
+@media (min-width: 992px) {
+    .checkout-page {
+        grid-template-columns: 2fr 1fr; /* Delivery/Pickup on left (2 parts), Order Summary on right (1 part) */
+        align-items: start; /* Align items to the top of their grid cells */
+    }
+}
+
+/* Section for the order summary (cart items, totals, tip) */
+.cart-summary {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.cart-summary h3 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.6em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.cart-summary .cart-items-container {
+    max-height: 400px; /* Limit height for scrollable cart items */
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+/* Individual cart item styling within checkout summary */
+.cart-summary .cart-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #eee;
+    position: relative;
+}
+
+.cart-summary .cart-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.cart-summary .cart-item img {
+    width: 60px; /* Smaller image size for summary */
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.cart-summary .cart-item .item-details {
+    flex-grow: 1;
+}
+
+.cart-summary .cart-item .item-details h3 {
+    margin: 0 0 5px;
+    font-size: 1em; /* Smaller font for item name */
+    color: var(--text-color);
+    border-bottom: none; /* Override section h3 border */
+    padding-bottom: 0;
+}
+
+.cart-summary .cart-item .item-options,
+.cart-summary .cart-item .item-instructions {
+    font-size: 0.8em;
+    color: #777;
+    margin-bottom: 3px;
+}
+
+.cart-summary .cart-item .item-quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.cart-summary .cart-item .quantity-decrease,
+.cart-summary .cart-item .quantity-increase {
+    background-color: #eee;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 2px 6px;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 0.9em;
+}
+
+.cart-summary .cart-item .quantity {
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.cart-summary .cart-item .item-price {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 1em;
+    margin-left: auto; /* Push price to the right */
+}
+
+.cart-summary .cart-item .remove-item-btn {
+    background: none;
+    border: none;
+    color: #f44336; /* Red 'X' */
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: color 0.2s ease;
+}
+
+.cart-summary .cart-item .remove-item-btn:hover {
+    color: #d32f2f;
+}
+
+
+/* Section for the checkout form (delivery/pickup, payment) */
+.checkout-form-section {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.checkout-form-section h3 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.6em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* General form group styling */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="date"],
+.form-group input[type="time"],
+.form-group input[type="number"], /* Added for tip amount */
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1em;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus,
+.form-group input[type="date"]:focus,
+.form-group input[type="time"]:focus,
+.form-group input[type="number"]:focus, /* Added for tip amount */
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(160, 82, 45, 0.2); /* Soft focus ring */
+    outline: none;
+}
+
+.form-group.half-width {
+    display: inline-block;
+    width: calc(50% - 10px);
+    margin-right: 20px;
+}
+
+.form-group.half-width:last-of-type {
+    margin-right: 0;
+}
+
+/* Styling for radio button groups (e.g., Order Type, Payment Method) */
+.radio-group {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.radio-group input[type="radio"] {
+    display: none; /* Hide default radio button */
+}
+
+.radio-group label {
+    background-color: #f0f0f0;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    border: 1px solid #ddd;
+    font-weight: normal; /* Override default label bold */
+}
+
+.radio-group input[type="radio"]:checked + label {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Specific styles for pickup/delivery options containers */
+#pickup-options, #delivery-options {
+    margin-top: 15px;
+    padding: 15px;
+    border: 1px dashed #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+#pickup-time-input-group {
+    margin-top: 15px;
+}
+
+/* Styles for credit card details section */
+#credit-card-details {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px dashed #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+/* Styling for the place order button */
+.place-order-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+/* Styling for checkout success/error messages */
+.checkout-message {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Tip Buttons Styling */
+.tip-options-group {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.tip-options-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.tip-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+}
+
+.tip-buttons .tip-btn {
+    flex: 1; /* Distribute space evenly */
+    min-width: 80px; /* Minimum width for buttons */
+    padding: 8px 12px;
+    font-size: 0.9em;
+    background-color: #f0f0f0;
+    color: var(--text-color);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.tip-buttons .tip-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.tip-buttons .tip-btn.active { /* Class for currently selected tip button */
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+.tip-box {
+    margin-top: 10px; /* Adjust spacing from tip buttons */
+    border-top: none; /* Remove top border as it's part of tip-options-group */
+    padding-top: 0;
+}
+
+.tip-box label {
+    margin-bottom: 8px; /* Standard label margin */
+}
+
+.tip-box input[type="number"] {
+    width: 100%; /* Make custom tip input full width */
+    text-align: left; /* Align text to left for input */
+}
+
+/* Style for "Add More Items" link */
+.add-more-items-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.add-more-items-link .btn {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 10px 20px;
+    font-size: 0.95em;
+}
+
+.add-more-items-link .btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
