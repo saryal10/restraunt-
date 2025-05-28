@@ -492,14 +492,13 @@ nav ul li a.active::after {
 }
 
 /* Shopping Cart Overlay */
-/* Re-use .modal-overlay and .modal-content for consistency */
-.cart-overlay {
+.cart-overlay { /* This is the same as .modal-overlay */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: flex-end; /* Pushes cart content to the right */
     z-index: 2000;
@@ -518,13 +517,15 @@ nav ul li a.active::after {
     width: 400px;
     max-width: 90%;
     height: 100%;
-    position: relative;
+    position: absolute; /* Changed from relative to absolute for correct sliding */
     right: -400px; /* Initially off-screen */
     transition: right 0.3s ease;
     padding: 20px;
     box-shadow: -5px 0 15px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
+    top: 0; /* Ensures it starts at the top of the overlay */
+    height: 100%; /* Ensures it takes full height of the overlay */
 }
 
 .cart-overlay.show .cart-content {
@@ -835,6 +836,10 @@ nav ul li a.active::after {
 .contact-details a {
     color: var(--primary-color);
     font-weight: bold;
+}
+
+.contact-details a:hover {
+    color: var(--accent-color);
 }
 
 .map-container {
@@ -1200,39 +1205,47 @@ footer {
     gap: 40px; /* Space between the two main sections */
 }
 
+/* New wrapper to hold the two columns */
+.checkout-content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr; /* Default to single column */
+    gap: 40px; /* Space between sections */
+    padding-top: 20px;
+}
+
 @media (min-width: 992px) {
-    .checkout-page {
+    .checkout-content-wrapper {
         grid-template-columns: 2fr 1fr; /* Delivery/Pickup on left (2 parts), Order Summary on right (1 part) */
         align-items: start; /* Align items to the top of their grid cells */
     }
 }
 
 /* Section for the order summary (cart items, totals, tip) */
-.cart-summary {
+.cart-summary-section { /* Renamed for clarity and to avoid conflict with existing .cart-summary */
     background-color: white;
     padding: 25px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-.cart-summary h3 {
+.cart-summary-section h3 {
     color: var(--primary-color);
     margin-bottom: 20px;
-    font-size: 1.6em;
+    font-size: 1.8em; /* Increased font for checkout section heading */
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
 }
 
-.cart-summary .cart-items-container {
+.cart-items-list { /* Renamed for clarity and to target the container in checkout.html */
     max-height: 400px; /* Limit height for scrollable cart items */
     overflow-y: auto;
     margin-bottom: 20px;
 }
 
 /* Individual cart item styling within checkout summary */
-.cart-summary .cart-item {
+.cart-items-list .cart-item { /* Adjusted selector */
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* Align items to the top */
     gap: 15px;
     margin-bottom: 15px;
     padding-bottom: 15px;
@@ -1240,46 +1253,48 @@ footer {
     position: relative;
 }
 
-.cart-summary .cart-item:last-child {
+.cart-items-list .cart-item:last-child {
     border-bottom: none;
     padding-bottom: 0;
 }
 
-.cart-summary .cart-item img {
+.cart-items-list .cart-item img {
     width: 60px; /* Smaller image size for summary */
     height: 60px;
     object-fit: cover;
     border-radius: 8px;
+    flex-shrink: 0; /* Prevent image from shrinking */
 }
 
-.cart-summary .cart-item .item-details {
+.cart-items-list .cart-item .item-details {
     flex-grow: 1;
+    margin-right: 15px;
 }
 
-.cart-summary .cart-item .item-details h3 {
+.cart-items-list .cart-item .item-details h4 { /* Changed to h4 as per HTML */
     margin: 0 0 5px;
-    font-size: 1em; /* Smaller font for item name */
+    font-size: 0.9em; /* Smaller font for item name */
     color: var(--text-color);
-    border-bottom: none; /* Override section h3 border */
+    /* border-bottom: none; */ /* No specific border for h4 here */
     padding-bottom: 0;
 }
 
-.cart-summary .cart-item .item-options,
-.cart-summary .cart-item .item-instructions {
-    font-size: 0.8em;
+.cart-items-list .cart-item .item-options,
+.cart-items-list .cart-item .item-instructions {
+    font-size: 0.75em; /* Decreased font size */
     color: #777;
     margin-bottom: 3px;
 }
 
-.cart-summary .cart-item .item-quantity-controls {
+.cart-items-list .cart-item .item-quantity-controls {
     display: flex;
     align-items: center;
     gap: 5px;
     margin-top: 5px;
 }
 
-.cart-summary .cart-item .quantity-decrease,
-.cart-summary .cart-item .quantity-increase {
+.cart-items-list .cart-item .quantity-decrease,
+.cart-items-list .cart-item .quantity-increase {
     background-color: #eee;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -1287,33 +1302,56 @@ footer {
     cursor: pointer;
     font-weight: bold;
     color: var(--primary-color);
-    font-size: 0.9em;
+    font-size: 0.85em; /* Decreased font size */
 }
 
-.cart-summary .cart-item .quantity {
+.cart-items-list .cart-item .quantity {
     font-weight: bold;
-    font-size: 0.9em;
+    font-size: 0.8em; /* Decreased font size */
 }
 
-.cart-summary .cart-item .item-price {
+.cart-items-list .cart-item .item-price {
     font-weight: bold;
     color: var(--primary-color);
-    font-size: 1em;
+    font-size: 0.9em; /* Decreased font size */
     margin-left: auto; /* Push price to the right */
+    flex-shrink: 0; /* Prevent price from shrinking */
+    text-align: right;
 }
 
-.cart-summary .cart-item .remove-item-btn {
+.cart-items-list .cart-item .remove-item-btn {
     background: none;
     border: none;
     color: #f44336; /* Red 'X' */
-    font-size: 1.2em;
+    font-size: 1.1em; /* Decreased font size */
     cursor: pointer;
     margin-left: 10px;
     transition: color 0.2s ease;
+    flex-shrink: 0; /* Prevent button from shrinking */
 }
 
-.cart-summary .cart-item .remove-item-btn:hover {
+.cart-items-list .cart-item .remove-item-btn:hover {
     color: #d32f2f;
+}
+
+.order-totals {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 2px solid var(--primary-color);
+    text-align: right;
+}
+
+.order-totals p {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    color: var(--text-color);
+}
+
+.order-totals .final-total {
+    font-size: 1.6em;
+    font-weight: bold;
+    color: var(--dark-bg);
+    margin-top: 15px;
 }
 
 
@@ -1328,7 +1366,7 @@ footer {
 .checkout-form-section h3 {
     color: var(--primary-color);
     margin-bottom: 20px;
-    font-size: 1.6em;
+    font-size: 1.8em; /* Increased font for checkout section heading */
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
 }
@@ -1458,10 +1496,10 @@ footer {
     padding-top: 15px;
 }
 
-.tip-options-group label {
-    font-weight: bold;
-    display: block;
+.tip-options-group h4 { /* Target the h4 for "Add a Tip" */
     margin-bottom: 10px;
+    color: var(--text-color);
+    font-size: 1.2em;
 }
 
 .tip-buttons {
@@ -1498,8 +1536,8 @@ footer {
 
 .tip-box {
     margin-top: 10px; /* Adjust spacing from tip buttons */
-    border-top: none; /* Remove top border as it's part of tip-options-group */
-    padding-top: 0;
+    /* border-top: none; */ /* Remove top border as it's part of tip-options-group */
+    /* padding-top: 0; */
 }
 
 .tip-box label {
@@ -1512,20 +1550,38 @@ footer {
 }
 
 /* Style for "Add More Items" link */
-.add-more-items-link {
+.add-more-items {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
-.add-more-items-link .btn {
+.add-more-items-link {
     background-color: var(--secondary-color);
     color: var(--primary-color);
     border: 1px solid var(--primary-color);
     padding: 10px 20px;
+    border-radius: 5px;
     font-size: 0.95em;
+    font-weight: bold;
+    display: inline-block; /* Make it behave like a button */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.add-more-items-link .btn:hover {
+.add-more-items-link:hover {
     background-color: var(--primary-color);
     color: white;
+}
+
+/* Utility Class for Hiding Elements */
+.hidden {
+    display: none !important;
+}
+
+/* Empty cart message */
+.empty-cart-message {
+    text-align: center;
+    padding: 30px 0;
+    color: #888;
+    font-style: italic;
+    font-size: 1.1em;
 }
