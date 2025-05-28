@@ -11,7 +11,9 @@ const CART_STORAGE_KEY = 'shoppingCart'; // Consistent key for localStorage
  * @returns {Array} The shopping cart array, or an empty array if not found.
  */
 function getCart() {
-    return JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+    const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+    console.log('getCart() called. Current cart:', cart); // Added log
+    return cart;
 }
 
 /**
@@ -20,6 +22,7 @@ function getCart() {
  */
 function saveCart(cart) {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+    console.log('saveCart() called. Cart saved:', cart); // Added log
     // Trigger a UI update for elements that display cart info (e.g., header count, cart overlay)
     updateCartUI();
 }
@@ -30,291 +33,182 @@ function saveCart(cart) {
  * @param {string} itemId - The ID of the menu item.
  * @param {string} itemName - The name of the menu item.
  * @param {number} itemPrice - The price of the menu item.
+ * @param {string} itemImage
  * @param {string} [options=''] - Selected options string (e.g., "Cheese, Bacon").
  * @param {string} [instructions=''] - Special instructions for the item.
  */
-function addToCart(itemId, itemName, itemPrice, options = '', instructions = '') {
-    let cart = getCart(); // Get the current cart using the global function
-    // Find item considering its ID, options, and instructions for uniqueness
+function addToCart(itemId, itemName, itemPrice, itemImage, options = '', instructions = '') {
+    console.log('addToCart() called with:', { itemId, itemName, itemPrice, itemImage, options, instructions }); // Added log
+    let cart = getCart(); // Get current cart
+
+    // Create a unique identifier for the item based on ID, options, and instructions
+    // This ensures items with different options/instructions are treated as distinct cart entries
+    const uniqueId = `${itemId}-${options}-${instructions}`;
+
+    // Check if the item already exists in the cart with the exact same ID, options, and instructions
     const existingItemIndex = cart.findIndex(item =>
-        item.id === itemId && item.options === options && item.instructions === instructions
+        item.id === itemId &&
+        (item.options || '') === options && // Compare options, handle undefined/null
+        (item.instructions || '') === instructions // Compare instructions, handle undefined/null
     );
 
     if (existingItemIndex > -1) {
         // Item exists, increment quantity
         cart[existingItemIndex].quantity += 1;
+        console.log('Item already in cart, incremented quantity:', cart[existingItemIndex]); // Added log
     } else {
         // Item does not exist, add as new item
-        cart.push({ id: itemId, name: itemName, price: itemPrice, quantity: 1, options, instructions });
+        cart.push({
+            id: itemId,
+            name: itemName,
+            price: itemPrice,
+            image: itemImage, // Store image path
+            quantity: 1,
+            options: options,
+            instructions: instructions
+        });
+        console.log('New item added to cart:', cart[cart.length - 1]); // Added log
     }
 
-    saveCart(cart); // Save the updated cart
-    showToast(`${itemName} added to cart!`, 'success'); // Use global showToast
+    saveCart(cart); // Save the updated cart to localStorage
+    showToast(`${itemName} added to cart!`, 'success');
 }
 
 /**
- * Removes an item from the cart.
- * @param {string} itemId - The ID of the item to remove.
- * @param {string} [options=''] - Options of the item to remove (for unique identification).
- * @param {string} [instructions=''] - Instructions of the item to remove (for unique identification).
+ * Removes an item completely from the cart.
+ * @param {string} itemId - The ID of the menu item.
+ * @param {string} [options=''] - Selected options string (e.g., "Cheese, Bacon").
+ * @param {string} [instructions=''] - Special instructions for the item.
  */
 function removeFromCart(itemId, options = '', instructions = '') {
     let cart = getCart();
+    // Filter out the item that matches ID, options, and instructions
     const initialLength = cart.length;
-    cart = cart.filter(item => !(item.id === itemId && item.options === options && item.instructions === instructions));
+    cart = cart.filter(item =>
+        !(item.id === itemId &&
+          (item.options || '') === options &&
+          (item.instructions || '') === instructions)
+    );
+
     if (cart.length < initialLength) {
-        saveCart(cart);
+        saveCart(cart); // Only save if something was actually removed
         showToast('Item removed from cart.', 'info');
     }
 }
 
 /**
  * Updates the quantity of a specific item in the cart.
- * @param {string} itemId - The ID of the item to update.
+ * If quantity is 0 or less, the item is removed.
+ * @param {string} itemId - The ID of the menu item.
  * @param {number} newQuantity - The new quantity for the item.
- * @param {string} [options=''] - Options of the item to update.
- * @param {string} [instructions=''] - Instructions of the item to update.
+ * @param {string} [options=''] - Selected options string (e.g., "Cheese, Bacon").
+ * @param {string} [instructions=''] - Special instructions for the item.
  */
 function updateItemQuantity(itemId, newQuantity, options = '', instructions = '') {
     let cart = getCart();
     const itemIndex = cart.findIndex(item =>
-        item.id === itemId && item.options === options && item.instructions === instructions
+        item.id === itemId &&
+        (item.options || '') === options &&
+        (item.instructions || '') === instructions
     );
 
     if (itemIndex > -1) {
-        if (newQuantity <= 0) {
-            // If quantity is 0 or less, remove the item
-            cart.splice(itemIndex, 1);
-        } else {
+        if (newQuantity > 0) {
             cart[itemIndex].quantity = newQuantity;
+            showToast(`Quantity updated for ${cart[itemIndex].name}.`, 'info');
+        } else {
+            // If newQuantity is 0 or less, remove the item
+            cart.splice(itemIndex, 1);
+            showToast('Item removed from cart.', 'info');
         }
-        saveCart(cart);
+        saveCart(cart); // Save updated cart
     }
 }
 
 /**
- * Updates the cart item count displayed in the navigation bar.
+ * Calculates the total number of items in the cart (sum of quantities).
+ * @returns {number} The total count of items.
  */
-function updateCartUI() {
+function getTotalCartItems() {
     const cart = getCart();
-    const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
-    const cartCountElements = document.querySelectorAll('.cart-count'); // Select all elements with class 'cart-count'
-    const cartIconElement = document.getElementById('cart-item-count'); // Specific for the standalone icon
-
-    cartCountElements.forEach(element => {
-        element.textContent = cartItemCount;
-        element.style.display = cartItemCount > 0 ? 'inline-block' : 'none';
-    });
-
-    if (cartIconElement) {
-        cartIconElement.textContent = cartItemCount;
-        cartIconElement.style.display = cartItemCount > 0 ? 'inline-block' : 'none';
-    }
+    return cart.reduce((sum, item) => sum + item.quantity, 0);
 }
 
+/**
+ * Calculates the total price of all items in the cart.
+ * @returns {number} The total price.
+ */
+function getCartTotalPrice() {
+    const cart = getCart();
+    return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+}
+
+/**
+ * Clears the entire cart from localStorage.
+ */
+function clearCart() {
+    localStorage.removeItem(CART_STORAGE_KEY);
+    updateCartUI(); // Update UI to reflect empty cart
+    console.log('Cart cleared from localStorage.'); // Added log
+}
 
 /**
  * Displays a toast notification.
  * @param {string} message - The message to display.
- * @param {string} type - The type of toast ('success', 'error', 'info').
+ * @param {'success'|'error'|'info'} type - The type of toast (for styling).
  */
 function showToast(message, type = 'info') {
     const toastContainer = document.getElementById('toast-container');
     if (!toastContainer) {
-        console.error('Toast container not found!');
+        console.warn('Toast container not found!');
         return;
     }
 
     const toast = document.createElement('div');
-    toast.classList.add('toast-notification', type); // Add type class for styling
+    toast.classList.add('toast', type);
+    toast.textContent = message;
 
-    let iconHtml = '';
-    if (type === 'success') {
-        iconHtml = '<i class="fas fa-check-circle"></i>';
-    } else if (type === 'error') {
-        iconHtml = '<i class="fas fa-times-circle"></i>';
-    } else if (type === 'info') {
-        iconHtml = '<i class="fas fa-info-circle"></i>';
-    }
-
-    toast.innerHTML = `${iconHtml} ${message}`;
     toastContainer.appendChild(toast);
 
-    // Show the toast
+    // Automatically remove the toast after a few seconds
     setTimeout(() => {
-        toast.classList.add('show');
-    }, 10); // Small delay to trigger CSS transition
-
-    // Hide and remove after a few seconds
-    setTimeout(() => {
-        toast.classList.remove('show');
+        toast.classList.add('hide'); // Add a class to trigger fade-out animation (if defined in CSS)
         toast.addEventListener('transitionend', () => {
-            toast.remove();
-        }, { once: true });
-    }, 3000); // Adjust display duration
+            toast.remove(); // Remove from DOM after animation
+        }, { once: true }); // Ensure listener is called only once
+    }, 3000); // Display for 3 seconds
 }
 
 
-// ===================================
-// --- GLOBAL UI/INTERACTION LOGIC ---
-// ===================================
+/**
+ * Updates the UI elements that display cart information,
+ * specifically the cart count in the header.
+ */
+function updateCartUI() {
+    const cart = getCart();
+    const cartCountSpan = document.querySelector('.cart-count');
 
+    console.log('updateCartUI() called. Cart contents:', cart); // Added log
+
+    if (cartCountSpan) {
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        console.log('Total items calculated:', totalItems); // Added log
+        cartCountSpan.textContent = totalItems.toString(); // Update the text content
+        // Add a class for visual feedback (e.g., bounce animation) if needed
+        cartCountSpan.classList.add('bouncing');
+        setTimeout(() => {
+            cartCountSpan.classList.remove('bouncing');
+        }, 500);
+    } else {
+        console.warn('Cart count span (.cart-count) not found in header.'); // Added warning
+    }
+}
+
+
+// --- DOMContentLoaded for global script.js functionality ---
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Login/Signup Modal Logic ---
-    const loginIcon = document.getElementById('login-icon');
-    const loginModal = document.getElementById('login-modal');
-    const signupModal = document.getElementById('signup-modal');
-    const closeButtons = document.querySelectorAll('.close-modal-btn');
-    const signupLink = document.getElementById('signup-link');
-    const loginLink = document.getElementById('login-link');
-
-    if (loginIcon) {
-        loginIcon.addEventListener('click', (e) => {
-            e.preventDefault();
-            loginModal.classList.remove('hidden');
-            loginModal.classList.add('show'); // Added this line to make the modal visible
-        });
-    }
-
-    closeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            loginModal.classList.add('hidden');
-            loginModal.classList.remove('show'); // Added this line to hide the modal properly
-            signupModal.classList.add('hidden');
-            signupModal.classList.remove('show'); // Added this line to hide the modal properly
-        });
-    });
-
-    // Close modals when clicking outside
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                overlay.classList.add('hidden');
-                overlay.classList.remove('show'); // Added this line to hide the modal properly
-            }
-        });
-    });
-
-
-    if (signupLink) {
-        signupLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            loginModal.classList.add('hidden');
-            loginModal.classList.remove('show'); // Added this line to hide the login modal properly
-            signupModal.classList.remove('hidden');
-            signupModal.classList.add('show'); // Added this line to show the signup modal
-        });
-    }
-
-    if (loginLink) {
-        loginLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            signupModal.classList.add('hidden');
-            signupModal.classList.remove('show'); // Added this line to hide the signup modal properly
-            loginModal.classList.remove('hidden');
-            loginModal.classList.add('show'); // Added this line to show the login modal
-        });
-    }
-
-    // --- Form Submission (Client-side simulation) ---
-    const loginForm = document.getElementById('login-form');
-    const signupForm = document.getElementById('signup-form');
-
-    if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = loginForm.elements['login-email'].value;
-            const password = loginForm.elements['login-password'].value;
-            const messageElement = loginForm.querySelector('.login-message');
-
-            if (!email || !password) {
-                messageElement.textContent = 'Please enter both email and password.';
-                messageElement.style.color = 'red';
-                messageElement.style.display = 'block';
-                return;
-            }
-
-            // Simulate login process
-            messageElement.textContent = 'Logging in...';
-            messageElement.style.color = 'blue';
-            messageElement.style.display = 'block';
-
-            setTimeout(() => {
-                if (email === 'user@example.com' && password === 'password') {
-                    messageElement.textContent = 'Login successful!';
-                    messageElement.style.color = 'green';
-                    loginModal.classList.add('hidden');
-                    loginModal.classList.remove('show'); // Added this line to hide the modal properly after successful login
-                    // In a real app, you'd set a logged-in state (e.g., localStorage, cookie)
-                    // and update UI elements (e.g., change 'Login' to 'Welcome, User!').
-                } else {
-                    messageElement.textContent = 'Invalid email or password.';
-                    messageElement.style.color = 'red';
-                }
-                setTimeout(() => {
-                    messageElement.style.display = 'none';
-                }, 3000);
-            }, 1500);
-        });
-    }
-
-    if (signupForm) {
-        signupForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = signupForm.elements['signup-name'].value;
-            const email = signupForm.elements['signup-email'].value;
-            const password = signupForm.elements['signup-password'].value;
-            const confirmPassword = signupForm.elements['signup-confirm-password'].value;
-            const messageElement = signupForm.querySelector('.signup-message');
-
-            if (password !== confirmPassword) {
-                messageElement.textContent = 'Passwords do not match.';
-                messageElement.style.color = 'red';
-                messageElement.style.display = 'block';
-                return;
-            }
-
-            // Simulate signup process
-            messageElement.textContent = 'Signing up...';
-            messageElement.style.color = 'blue';
-            messageElement.style.display = 'block';
-
-            setTimeout(() => {
-                // In a real app, you'd send this to a backend
-                messageElement.textContent = 'Account created successfully! Please log in.';
-                messageElement.style.color = 'green';
-                signupForm.reset();
-                setTimeout(() => {
-                    signupModal.classList.add('hidden');
-                    signupModal.classList.remove('show'); // Added this line to hide the signup modal properly
-                    loginModal.classList.remove('hidden');
-                    loginModal.classList.add('show'); // Show login after signup
-                }, 1500);
-            }, 1500);
-        });
-    }
-
-    // --- Back to Top Button ---
-    const backToTopBtn = document.getElementById('backToTopBtn');
-    if (backToTopBtn) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) { // Show button after scrolling down 300px
-                backToTopBtn.classList.add('show');
-            } else {
-                backToTopBtn.classList.remove('show');
-            }
-        });
-
-        backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
-
-    // --- Add to Cart Button Listener (General for any page with these buttons) ---
-    // This listener is now more robust to find the correct parent element
+    // Add event listener for general "Add to Cart" buttons
+    // This is useful if you have "Add to Cart" buttons on non-menu pages (e.g., index.html special offers)
     document.querySelectorAll('.add-to-cart-btn').forEach(button => {
         button.addEventListener('click', (e) => {
             // Look for the closest parent that is either a .menu-item or a .special-item
@@ -324,11 +218,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 const itemName = itemElement.dataset.name;
                 const itemPrice = parseFloat(itemElement.dataset.price);
 
+                // Note: The global addToCart here doesn't take 'image' directly from data attributes
+                // It expects 'options' and 'instructions'.
+                // If you need images handled globally, the addToCart signature in script.js
+                // and the data attributes on items need to be consistent across all pages.
+                // For now, let's assume menu.js handles image for its specific calls.
+
                 const options = itemElement.dataset.options || '';
                 const instructions = itemElement.dataset.instructions || '';
+                const image = itemElement.dataset.image || ''; // Ensure image is also passed if available globally
+
 
                 if (itemId && itemName && !isNaN(itemPrice)) {
-                    addToCart(itemId, itemName, itemPrice, options, instructions);
+                    // Call the global addToCart function
+                    addToCart(itemId, itemName, itemPrice, image, options, instructions);
                 } else {
                     console.error('Missing or invalid data attributes on item element for add to cart:', itemElement);
                     showToast('Failed to add item: Missing menu data.', 'error');

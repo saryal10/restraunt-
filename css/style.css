@@ -154,20 +154,24 @@ nav ul li a.active::after {
 }
 
 .cart-count {
-    background-color: var(--accent-color); /* Badge background */
+    position: absolute;
+    top: -8px;   /* Adjusted: Move it up slightly above the icon */
+    right: -8px; /* Adjusted: Move it right slightly outside the icon */
+    background-color: var(--accent-color); /* Green background */
     color: white;
-    font-size: 0.75em;
+    font-size: 0.7em;
     font-weight: bold;
     border-radius: 50%;
-    padding: 3px 7px;
-    position: absolute;
-    top: -8px; /* Position above and to the right of the icon */
-    right: -5px;
-    min-width: 20px; /* Ensure circular shape for single digits */
+    padding: 2px 5px;
+    min-width: 18px; /* Ensures it's a circle even for single digit */
     text-align: center;
-    line-height: 1; /* Center text vertically */
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    display: none; /* Hidden by default when cart is empty or 0 items */
+    line-height: 1; /* Aligns text vertically */
+    display: flex; /* Use flexbox for centering */
+    align-items: center;
+    justify-content: center;
+    transform: scale(1); /* Initial scale */
+    transition: transform 0.2s ease-out; /* Smooth transition for bounce */
+    z-index: 10; /* Added: Ensures it's on top of other elements */
 }
 
 /* Show cart count only when > 0 items (active class added by JS) */
@@ -1593,4 +1597,81 @@ footer {
     color: #888;
     font-style: italic;
     font-size: 1.1em;
+}
+/* Styles for images within the cart overlay */
+.cart-overlay-item-img {
+    width: 40px; /* Adjust as needed */
+    height: 40px; /* Ensure proportional scaling */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    border-radius: 5px; /* Slightly rounded corners for the image */
+    margin-right: 10px; /* Space between image and text */
+}
+.cart-item {
+    display: flex; /* Make the cart item itself a flex container */
+    align-items: center; /* Vertically align items in the cart row */
+    justify-content: space-between; /* Space out info and controls */
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item-info {
+    display: flex; /* Make this a flex container to put image and text on same line */
+    align-items: center; /* Vertically align the image and text */
+    gap: 10px; /* Space between the image and the text */
+    flex-grow: 1; /* Allow it to grow and take available space */
+}
+
+.cart-overlay-item-img {
+    width: 60px; /* Set a fixed width for the image */
+    height: 60px; /* Set a fixed height for the image */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    border-radius: 5px; /* Slightly rounded corners for the image */
+}
+
+.cart-item-info span {
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.cart-item-info small {
+    display: block; /* Make options/instructions appear on new lines below the main item text */
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 2px; /* Small space above options/instructions */
+}
+
+.cart-item-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.quantity-btn, .remove-from-cart-btn {
+    padding: 5px 8px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.quantity-btn:hover, .remove-from-cart-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.remove-from-cart-btn {
+    color: #d9534f; /* Bootstrap's danger color */
+    border-color: #d9534f;
+    background-color: #fefefe;
+}
+
+.remove-from-cart-btn:hover {
+    background-color: #d9534f;
+    color: white;
+}
+
+.quantity-display {
+    min-width: 20px;
+    text-align: center;
+    font-weight: bold;
 }
