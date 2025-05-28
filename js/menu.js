@@ -62,8 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Call addToCart from script.js
             addToCart(id, name, price, image, selectedOptions.join(', '), instructions);
 
-            // --- IMPORTANT CHANGE HERE (No auto-show for overlay) ---
-            // The overlay will NOT automatically show when an item is added.
+            // --- IMPORTANT CHANGE HERE: ---
+            // Removed: cartOverlay.classList.add('show');
+            // Now, the overlay will NOT automatically show when an item is added.
             // It will only show when the cart icon in the header is clicked.
 
             // This ensures the cart's content is updated even if the overlay isn't visible
@@ -185,7 +186,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Initial Load ---
     // Call updateCartUI once when the page loads to display any existing cart items
     // and correctly set the cart count and checkout button state.
-    // THIS LINE WAS COMMENTED OUT IN THE PREVIOUS STEP, UNCOMMENTING IT NOW.
-    updateCartUI(); // This ensures the header cart count is updated on page load.
+    updateCartUI(); // This is called here and by script.js's DOMContentLoaded.
+                    // The one in script.js is enough for header count.
+                    // Keep this one if you need to specifically update UI elements
+                    // that only exist on the menu page's initial load.
     renderCartItemsInOverlay(); // Render items in the overlay on menu page load, so it's ready when opened.
 });
