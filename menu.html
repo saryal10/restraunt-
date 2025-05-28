@@ -31,6 +31,8 @@
                     <span class="cart-count">0</span>
                 </a>
             </div>
+
+
             <div class="nav-toggle">
                 <span></span>
                 <span></span>
@@ -323,7 +325,21 @@
             <p class="text-center">Already have an account? <a href="#" id="login-link">Login</a></p>
         </div>
     </div>
-
+<div id="shopping-cart-overlay" class="cart-overlay">
+    <div class="cart-content">
+        <span class="close-modal-btn" id="close-cart-btn">&times;</span>
+        <h2>Your Cart</h2>
+        <ul id="cart-items">
+            <li class="empty-cart-message">Your cart is empty.</li>
+        </ul>
+        <div class="cart-total">
+            Total: $<span id="cart-total-amount">0.00</span>
+        </div>
+        <div class="cart-buttons">
+            <button id="checkout-btn" class="btn btn-primary">Proceed to Checkout</button>
+        </div>
+    </div>
+</div>
     <button class="back-to-top" id="backToTopBtn">
         <i class="fas fa-arrow-up"></i>
     </button>
