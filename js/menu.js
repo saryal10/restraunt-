@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const cartTotalPriceSpan = document.getElementById('cart-total-price'); // Assuming you meant cart-total-amount from your HTML
 
         // Corrected reference based on menu.html snippet:
-        const cartTotalAmountSpan = document.getElementById('cart-total-amount');
+        const cartTotalAmountSpan = document.getElementById('cart-total-price');
 
         if (!cartItemsList || !cartTotalAmountSpan) {
             console.error('Cart items list or total price span not found in overlay.');
