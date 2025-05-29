@@ -43,7 +43,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const taxRate = 0.08; // Example tax rate (8%)
         const tax = subtotal * taxRate;
-        let tip = parseFloat(tipAmountInput.value) || 0; // Get tip amount, default to 0 if invalid
+
+        // Determine the current tip selection type (percentage or custom)
+        let currentTipPercentage = 0;
+        let isCustomTipActive = false;
+        const activeTipButton = document.querySelector('.tip-btn.active');
+
+        if (activeTipButton && activeTipButton.dataset.tip !== 'custom') {
+            currentTipPercentage = parseFloat(activeTipButton.dataset.tip);
+        } else if (activeTipButton && activeTipButton.dataset.tip === 'custom') {
+            isCustomTipActive = true;
+        }
+
+        let tip = 0;
+        if (isCustomTipActive) {
+            tip = parseFloat(tipAmountInput.value) || 0; // Use user-entered custom tip
+        } else {
+            // If a percentage tip was active, recalculate it based on new subtotal
+            tip = subtotal * currentTipPercentage;
+        }
+        
         if (tip < 0) tip = 0; // Ensure tip is not negative
         const total = subtotal + tax + tip;
         return { subtotal, tax, tip, total };
@@ -216,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 const tipPercentage = parseFloat(button.dataset.tip);
                 const currentCart = getCart();
-                const { subtotal } = calculateCartTotals(currentCart);
+                const { subtotal } = calculateCartTotals(currentCart); // Recalculate subtotal for tip
                 tipAmountInput.value = (subtotal * tipPercentage).toFixed(2);
                 customTipLabel.classList.add('hidden'); // Hide custom tip label for pre-filled tips
             }
@@ -339,6 +358,12 @@ document.addEventListener('DOMContentLoaded', () => {
             customTipLabel.classList.add('hidden'); // Hide custom tip input label
             tipButtons.forEach(btn => btn.classList.remove('active')); // Deactivate tip buttons
 
+            // --- FIX START ---
+            // After resetting the form, the "Credit Card" radio button is checked by default.
+            // However, the 'change' event isn't fired, so we need to manually show the credit card details.
+            document.getElementById('card').checked = true; // Ensure Credit Card is selected
+            creditCardDetailsDiv.style.display = 'block'; // Explicitly show credit card details
+            // --- FIX END ---
 
             // Call global updateCartUI for the header count
             if (typeof updateCartUI === 'function') {
