@@ -62,25 +62,23 @@ img {
 
 /* --- Header & Navigation --- */
 header {
-    background-color: var(--dark-bg);
-    color: var(--light-text-color);
-    padding: 15px 0;
+    display: flex;
+    justify-content: space-between; /* Space out logo, nav, and icons */
+    align-items: center;
+    padding: 0 40px; /* Adjust padding as needed */
+    height: var(--header-height); /* Use the CSS variable */
+    background-color: var(--dark-bg); /* Or your header background color */
     position: sticky;
     top: 0;
-    left: 0;
-    width: 100%;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
-
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    width: 100%; /* Ensure nav takes full width of header */
 }
+
 
 .logo h1 {
     font-size: 2em;
@@ -90,11 +88,15 @@ nav {
 }
 
 nav ul {
-    display: flex;
-    flex-grow: 1; /* Allows the nav links to take available space */
-    justify-content: center; /* Center the links if space allows */
+    display: flex; /* Make nav links horizontal on desktop */
+    gap: 30px; /* Space between desktop nav items */
+    flex-grow: 1; /* Allow nav ul to take available space */
+    justify-content: center; /* Center align nav items */
 }
 
+.menu-toggle {
+    display: none; /* Hide hamburger menu by default on desktop */
+}
 nav ul li {
     margin-left: 30px;
 }
@@ -1856,4 +1858,350 @@ footer {
 
 .toast-info {
     background-color: #17a2b8; /* Blue */
+}
+
+/* ========================================= */
+/* --- Responsive Design Media Queries --- */
+/* ========================================= */
+
+/* General Responsive Adjustments */
+body {
+    /* Use relative units for base font size for better scaling */
+    font-size: 16px; /* Base for rem units */
+}
+
+h1 {
+    font-size: 3.5rem; /* Large on desktop */
+}
+
+h2 {
+    font-size: 2.5rem;
+}
+
+h3 {
+    font-size: 2rem;
+}
+
+/* Ensure images are always responsive */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block; /* Prevents extra space below images */
+}
+
+/* Adjust main content sections for padding on smaller screens */
+main {
+    padding: 20px; /* Add some default padding for all pages */
+}
+
+section {
+    padding: 40px 20px; /* Consistent padding for sections */
+}
+
+
+/* --- Tablet and Smaller Desktop Screens (max-width: 1024px) --- */
+@media (max-width: 1024px) {
+    :root {
+        --header-height: 70px; /* Slightly smaller header */
+    }
+
+    header {
+        height: var(--header-height);
+    }
+
+    .container {
+        width: 90%; /* Use percentage for container width */
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+
+    /* Navigation adjustments */
+    nav ul {
+        gap: 15px; /* Reduce space between nav items */
+    }
+
+    nav ul li a {
+        font-size: 0.95rem; /* Slightly smaller font for nav links */
+        padding: 8px 12px;
+    }
+
+    .logo h1 {
+        font-size: 1.8rem; /* Adjust logo size */
+    }
+
+    .nav-icons .nav-icon span {
+        display: none; /* Hide text label for nav icons on tablets */
+    }
+
+    /* Adjust heading sizes for smaller screens */
+    h1 {
+        font-size: 3rem;
+    }
+
+    h2 {
+        font-size: 2.2rem;
+    }
+
+    h3 {
+        font-size: 1.8rem;
+    }
+
+    /* Menu Grid Adjustments (if applicable to your menu layout) */
+    /* Assuming a .menu-grid or similar for menu items */
+    .menu-grid, .gallery-grid { /* Applies to both menu items and about us gallery */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Allow items to stack better */
+        gap: 25px;
+    }
+
+    /* Form adjustments for better readability */
+    .form-container {
+        width: 80%; /* Forms take up more width */
+        margin: 0 auto;
+    }
+
+    /* Modal adjustments */
+    .modal-content {
+        width: 85%;
+        padding: 30px;
+    }
+
+    /* Cart Overlay Adjustments */
+    .cart-content {
+        width: 90%; /* Make cart overlay wider on tablets */
+    }
+}
+
+/* --- Mobile and Smaller Tablet Screens (max-width: 768px) --- */
+@media (max-width: 768px) {
+    :root {
+        --header-height: 60px; /* Even smaller header for mobiles */
+    }
+
+    header {
+        flex-wrap: wrap; /* Allow header content to wrap */
+        height: auto; /* Auto height to accommodate wrapping */
+        padding: 10px 20px;
+    }
+
+    nav {
+        flex-direction: column; /* Stack nav items vertically */
+        align-items: center; /* Center align nav items */
+        width: 100%;
+    }
+
+    nav .logo {
+        margin-bottom: 10px; /* Space below logo when stacked */
+    }
+
+    nav ul {
+        width: 100%;
+        flex-direction: column; /* Stack nav links */
+        text-align: center;
+        /* Hide by default, show with JavaScript for a hamburger menu */
+        display: none;
+        background-color: var(--dark-bg); /* Background for mobile menu */
+        padding: 10px 0;
+        position: absolute;
+        top: var(--header-height); /* Position below header */
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+
+    nav ul.show { /* Class added by JS for mobile menu toggle */
+        display: flex;
+    }
+
+    nav ul li {
+        margin: 5px 0; /* Vertical spacing for mobile nav links */
+    }
+
+    nav ul li a {
+        padding: 10px 0;
+        width: 100%;
+        display: block; /* Make links full width */
+        color: var(--light-text-color); /* Light text on dark background */
+    }
+
+    nav ul li a:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-icons {
+        position: absolute; /* Position icons independently */
+        right: 20px;
+        top: 15px;
+    }
+
+    /* Hamburger menu icon (you'll need to add this in HTML) */
+    .menu-toggle { /* Add a div with class 'menu-toggle' in your header/nav HTML */
+        display: block; /* Show the hamburger icon */
+        font-size: 1.8rem;
+        color: var(--text-color);
+        cursor: pointer;
+        position: absolute;
+        right: 80px; /* Adjust position if cart icon is also present */
+        top: 18px;
+        z-index: 1100; /* Ensure it's above other elements */
+    }
+
+    /* Headings smaller on mobile */
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+    }
+
+    /* Hero section adjustments */
+    .hero {
+        padding: 80px 20px; /* More vertical padding, less horizontal */
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: 2.8rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .btn {
+        padding: 10px 20px; /* Smaller buttons */
+        font-size: 1rem;
+    }
+
+    /* Section padding */
+    section {
+        padding: 30px 15px; /* Reduced padding for smaller screens */
+    }
+
+    /* Menu grid items might stack in a single column or two */
+    .menu-grid, .gallery-grid {
+        grid-template-columns: 1fr; /* Single column layout for very small screens */
+        gap: 20px;
+    }
+
+    .menu-item img {
+        height: 200px; /* Fixed height for menu images for consistency */
+        object-fit: cover;
+    }
+
+    .contact-form .form-group {
+        flex-direction: column; /* Stack labels and inputs */
+        align-items: flex-start;
+    }
+
+    .contact-form label {
+        margin-bottom: 5px;
+    }
+
+    .contact-form input[type="text"],
+    .contact-form input[type="email"],
+    .contact-form textarea {
+        width: 100%; /* Full width for form inputs */
+    }
+
+    /* Footer adjustments */
+    footer .container {
+        flex-direction: column; /* Stack footer columns */
+        text-align: center;
+        gap: 20px; /* Space between stacked columns */
+    }
+
+    .footer-col h3 {
+        margin-bottom: 10px;
+    }
+
+    .footer-col ul {
+        padding-left: 0;
+    }
+
+    /* Modals smaller on mobile */
+    .modal-content {
+        width: 95%;
+        margin: 10% auto; /* Adjust vertical positioning */
+        padding: 20px;
+        max-height: 90vh; /* Prevent overly tall modals */
+        overflow-y: auto; /* Allow scrolling within modal if content is long */
+    }
+
+    .cart-content {
+        width: 95%; /* Cart overlay almost full width */
+    }
+
+    .cart-overlay-item {
+        flex-direction: column; /* Stack item details */
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .cart-overlay-item-details {
+        margin-bottom: 10px;
+    }
+
+    .cart-item-controls {
+        width: 100%; /* Make controls full width */
+        justify-content: space-between; /* Distribute buttons */
+    }
+
+    .quantity-btn, .remove-from-cart-btn {
+        flex-grow: 1; /* Allow buttons to grow and fill space */
+        text-align: center;
+    }
+}
+
+/* --- Very Small Mobile Screens (max-width: 480px) --- */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    h3 {
+        font-size: 1.3rem;
+    }
+
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-content p {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    .nav-icons .nav-icon {
+        font-size: 1.2rem; /* Smaller icons */
+    }
+
+    .menu-toggle {
+        font-size: 1.5rem;
+    }
+
+    .login-signup-modal .modal-content {
+        padding: 15px;
+    }
+
+    .modal-content .form-group label {
+        font-size: 0.9em;
+    }
+
+    .checkout-form .form-group input,
+    .checkout-form .form-group select {
+        padding: 8px; /* Smaller padding for checkout inputs */
+    }
 }

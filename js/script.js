@@ -359,6 +359,39 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Initial UI Update ---
+    updateCartUI();
 
+    // --- Hamburger Menu Toggle Logic ---
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navUl = document.querySelector('nav ul'); // Assumes 'nav ul' is your main navigation list
+
+    if (menuToggle && navUl) {
+        menuToggle.addEventListener('click', () => {
+            navUl.classList.toggle('show'); // 'show' class will be defined in your CSS
+        });
+    }
+
+    // --- Back to Top Button Logic ---
+    const backToTopBtn = document.getElementById('backToTopBtn');
+
+    if (backToTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+});
     // You can add other global DOMContentLoaded logic here if needed.
 });
