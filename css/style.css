@@ -1678,3 +1678,182 @@ footer {
     text-align: center;
     font-weight: bold;
 }
+
+/* --- Modal Styles (for Login/Signup) --- */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 2000; /* Sit on top, higher than header */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    padding: 20px; /* Padding around the modal content */
+}
+
+.modal.show {
+    display: flex; /* Use flex to center content when shown */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto; /* For older browsers or specific centering */
+    padding: 30px;
+    border: 1px solid #888;
+    width: 90%; /* Max width for responsiveness */
+    max-width: 500px; /* A reasonable max-width */
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative; /* Needed for absolute positioning of close button */
+    animation: fadeIn 0.3s ease-out; /* Simple fade-in animation */
+}
+
+/* Close Button */
+.close-modal-btn {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-modal-btn:hover,
+.close-modal-btn:focus {
+    color: var(--primary-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Modal Header */
+.modal-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+/* Form Group Styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.form-group input:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2); /* Light green shadow */
+}
+
+/* Buttons within forms */
+.modal-content .btn-primary {
+    display: block; /* Make button take full width */
+    width: 100%;
+    padding: 12px 20px;
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content .btn-primary:hover {
+    background-color: #1c1510; /* Darker Sienna */
+}
+
+/* Links within modals (e.g., "Signup" / "Login" switch) */
+.modal-content .text-center {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+.modal-content .text-center a {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.modal-content .text-center a:hover {
+    text-decoration: underline;
+}
+
+/* Login/Signup Message Styles */
+.login-message,
+.signup-message {
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    text-align: center;
+    display: none; /* Hidden by default, shown by JS */
+}
+
+/* Animation for modals */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Basic styling for toast container if not already present */
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    background-color: #333;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    min-width: 200px;
+    text-align: center;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast-success {
+    background-color: var(--accent-color); /* Green */
+}
+
+.toast-error {
+    background-color: #dc3545; /* Red */
+}
+
+.toast-info {
+    background-color: #17a2b8; /* Blue */
+}

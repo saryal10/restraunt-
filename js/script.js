@@ -184,21 +184,159 @@ document.addEventListener('DOMContentLoaded', () => {
     // Call updateCartUI once when the page loads to display any existing cart items
     // and correctly set the navigation bar cart count and checkout button state.
     updateCartUI(); // This will update the cart count in the header for ALL pages.
-    // NOTE: Page-specific listeners (like 'Add to Cart' buttons) should be in their respective JS files (e.g., menu.js)
-    // 
-    // .
-});
-
-// ===================================
-// --- GLOBAL DOMContentLoaded Listener ---
-// ===================================
-
-document.addEventListener('DOMContentLoaded', () => {
-    // --- Initial UI Update ---
-    // Call updateCartUI once when the page loads to display any existing cart items
-    // and correctly set the navigation bar cart count and checkout button state.
-    updateCartUI(); // This will update the cart count in the header for ALL pages.
     // NOTE: Page-specific listeners (like 'Add to Cart' buttons) should be in their respective JS files (e.g., menu.js).
+
+    // ===================================
+    // --- LOGIN/SIGNUP MODAL LOGIC ---
+    // ===================================
+
+    // DOM Element References for Modals
+    const loginIcon = document.getElementById('login-icon');
+    const loginSignupModal = document.getElementById('login-modal'); // Corrected ID
+    const signupModal = document.getElementById('signup-modal');
+    const closeButtons = document.querySelectorAll('.close-modal-btn');
+    const signupLink = document.getElementById('signup-link');
+    const loginLink = document.getElementById('login-link');
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+    const loginMessage = document.querySelector('.login-message');
+    const signupMessage = document.querySelector('.signup-message');
+
+    // Function to open a specific modal
+    function openModal(modal) {
+        if (modal) { // Add a null check here as a safeguard
+            modal.classList.add('show');
+        } else {
+            console.error("Attempted to open a modal that is null:", modal);
+        }
+    }
+
+    // Function to close all modals
+    function closeModals() {
+        if (loginSignupModal) loginSignupModal.classList.remove('show');
+        if (signupModal) signupModal.classList.remove('show');
+        // Clear any previous messages
+        if (loginMessage) loginMessage.style.display = 'none';
+        if (signupMessage) signupMessage.style.display = 'none';
+        // Reset forms
+        if (loginForm) loginForm.reset();
+        if (signupForm) signupForm.reset();
+    }
+
+    // Event Listener for the Login Icon in the Header
+    if (loginIcon) {
+        loginIcon.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default link behavior (e.g., jumping to #)
+            openModal(loginSignupModal);
+        });
+    }
+
+    // Event Listeners for Close Buttons (inside modals)
+    closeButtons.forEach(button => {
+        button.addEventListener('click', closeModals);
+    });
+
+    // Close modals when clicking outside the modal content
+    if (loginSignupModal) {
+        loginSignupModal.addEventListener('click', (e) => {
+            if (e.target === loginSignupModal) {
+                closeModals();
+            }
+        });
+    }
+    if (signupModal) {
+        signupModal.addEventListener('click', (e) => {
+            if (e.target === signupModal) {
+                closeModals();
+            }
+        });
+    }
+
+    // Event Listener to switch from Login to Signup modal
+    if (signupLink) {
+        signupLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeModals(); // Close current (login) modal
+            openModal(signupModal); // Open signup modal
+        });
+    }
+
+    // Event Listener to switch from Signup to Login modal
+    if (loginLink) {
+        loginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeModals(); // Close current (signup) modal
+            openModal(loginSignupModal); // Open login modal
+        });
+    }
+
+    // Basic Login Form Submission (Client-side simulation)
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            console.log('Login form submitted (client-side only)');
+            const email = loginForm.querySelector('#login-email').value;
+            const password = loginForm.querySelector('#login-password').value;
+
+            // Simulate API call
+            if (email === 'user@example.com' && password === 'password') { // Example credentials
+                if (loginMessage) {
+                    loginMessage.textContent = 'Login successful!';
+                    loginMessage.style.display = 'block';
+                    loginMessage.style.backgroundColor = '#d4edda';
+                    loginMessage.style.color = '#155724';
+                }
+                showToast('Login successful!', 'success');
+                setTimeout(() => {
+                    closeModals();
+                }, 1500);
+            } else {
+                if (loginMessage) {
+                    loginMessage.textContent = 'Invalid email or password.';
+                    loginMessage.style.display = 'block';
+                    loginMessage.style.backgroundColor = '#f8d7da';
+                    loginMessage.style.color = '#721c24';
+                }
+                showToast('Invalid login credentials.', 'error');
+            }
+        });
+    }
+
+    // Basic Signup Form Submission (Client-side simulation)
+    if (signupForm) {
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            console.log('Signup form submitted (client-side only)');
+            const name = signupForm.querySelector('#signup-name').value;
+            const email = signupForm.querySelector('#signup-email').value;
+            const password = signupForm.querySelector('#signup-password').value;
+            const confirmPassword = signupForm.querySelector('#signup-confirm-password').value;
+
+            if (password !== confirmPassword) {
+                if (signupMessage) {
+                    signupMessage.textContent = 'Passwords do not match.';
+                    signupMessage.style.display = 'block';
+                    signupMessage.style.backgroundColor = '#f8d7da';
+                    signupMessage.style.color = '#721c24';
+                }
+                showToast('Passwords do not match.', 'error');
+                return;
+            }
+
+            // Simulate successful registration
+            if (signupMessage) {
+                signupMessage.textContent = 'Registration successful! You can now log in.';
+                signupMessage.style.display = 'block';
+                signupMessage.style.backgroundColor = '#d4edda';
+                signupMessage.style.color = '#155724';
+            }
+            showToast('Registration successful!', 'success');
+            setTimeout(() => {
+                closeModals();
+                openModal(loginSignupModal); // Automatically switch to login after signup
+            }, 1500);
+        });
+    }
 
     // --- Back to Top Button Logic ---
     const backToTopBtn = document.getElementById('backToTopBtn');
