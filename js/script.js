@@ -184,5 +184,43 @@ document.addEventListener('DOMContentLoaded', () => {
     // Call updateCartUI once when the page loads to display any existing cart items
     // and correctly set the navigation bar cart count and checkout button state.
     updateCartUI(); // This will update the cart count in the header for ALL pages.
+    // NOTE: Page-specific listeners (like 'Add to Cart' buttons) should be in their respective JS files (e.g., menu.js)
+    // 
+    // .
+});
+
+// ===================================
+// --- GLOBAL DOMContentLoaded Listener ---
+// ===================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Initial UI Update ---
+    // Call updateCartUI once when the page loads to display any existing cart items
+    // and correctly set the navigation bar cart count and checkout button state.
+    updateCartUI(); // This will update the cart count in the header for ALL pages.
     // NOTE: Page-specific listeners (like 'Add to Cart' buttons) should be in their respective JS files (e.g., menu.js).
+
+    // --- Back to Top Button Logic ---
+    const backToTopBtn = document.getElementById('backToTopBtn');
+
+    if (backToTopBtn) { // Ensure the button exists on the page
+        // Show/hide the button based on scroll position
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) { // Show button after scrolling 300px
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        // Scroll to top when the button is clicked
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // Smooth scroll
+            });
+        });
+    }
+
+    // You can add other global DOMContentLoaded logic here if needed.
 });
